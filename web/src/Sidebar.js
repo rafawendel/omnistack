@@ -4,7 +4,7 @@ import './Sidebar.css';
 function Sidebar() {
   return (
     <aside>
-      <string>Cadastrar</string>
+      <strong>Cadastrar</strong>
       <form>
         <div className="input-block">
           <label htmlFor="github_username">Usuário do GitHub</label>
