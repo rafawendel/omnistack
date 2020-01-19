@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import routes from './routes.js';
+import cors from 'cors';
 
 const app = express();
 
@@ -14,6 +15,7 @@ mongoose.connect(
   }
 );
 
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(routes);
 
