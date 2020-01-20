@@ -15,7 +15,16 @@ mongoose.connect(
   }
 );
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:19002',
+      'http://192.168.0.14:19000',
+      'http://192.168.0.20:19000'
+    ]
+  })
+);
 app.use(express.json());
 app.use(routes);
 

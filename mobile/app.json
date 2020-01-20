@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "omnistack",
+    "slug": "omnistack",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
