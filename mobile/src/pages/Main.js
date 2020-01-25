@@ -14,6 +14,7 @@ import {
 } from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
 import api from '../services/api';
+import { connect, disconnect } from '../services/socket';
 
 function Main({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
@@ -38,10 +39,17 @@ function Main({ navigation }) {
         });
       }
     }
+
     loadInitialPosition();
   }, []);
 
-  if (!currentRegion) return null;
+  function setupWebSocket() {
+    const { latitude, longitude } = currentRegion;
+
+    connect(latitude, longitude, techs);
+  }
+
+  // if (!currentRegion) return null;
 
   async function loadDevs() {
     const { latitude, longitude } = currentRegion;
@@ -54,6 +62,7 @@ function Main({ navigation }) {
       }
     });
 
+    setupWebSocket();
     setDevs(response.data.devs);
   }
 

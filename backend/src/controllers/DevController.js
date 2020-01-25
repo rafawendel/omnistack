@@ -1,8 +1,8 @@
-import axios from 'axios';
-import Dev from '../models/Dev.js';
-import parseStringAsArray from '../utils/parseStringAsArray.js';
+const axios = require('axios');
+const Dev = require('../models/Dev.js');
+const parseStringAsArray = require('../utils/parseStringAsArray.js');
 
-export default {
+module.exports = {
   async index(req, res) {
     return res.json(await Dev.find());
   },

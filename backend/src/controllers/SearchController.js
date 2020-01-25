@@ -1,7 +1,7 @@
-import Dev from '../models/Dev.js';
-import parseStringAsArray from '../utils/parseStringAsArray.js';
+const Dev = require('../models/Dev.js');
+const parseStringAsArray = require('../utils/parseStringAsArray.js');
 
-export default {
+module.exports = {
   async index(req, res) {
     const { latitude, longitude, techs } = req.query;
 

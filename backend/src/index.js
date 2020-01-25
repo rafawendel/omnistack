@@ -1,9 +1,15 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import routes from './routes.js';
-import cors from 'cors';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const http = require('http');
+
+const routes = require('./routes.js');
+const { setupWebSocket } = require('./websocket.js');
 
 const app = express();
+const server = http.createServer(app);
+
+setupWebSocket(server);
 
 mongoose.connect(
   'mongodb+srv://omnistack:SBJgJPhSqVapj1Rt@cluster0-fhexe.gcp.mongodb.net/omnistack?retryWrites=true&w=majority',
@@ -15,17 +21,9 @@ mongoose.connect(
   }
 );
 
-app.use(
-  cors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:19002',
-      'http://192.168.0.14:19000',
-      'http://192.168.0.20:19000'
-    ]
-  })
-);
+app.use(cors());
+
 app.use(express.json());
 app.use(routes);
 
-app.listen(3333);
+server.listen(3333);
