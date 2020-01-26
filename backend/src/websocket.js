@@ -1,14 +1,37 @@
 const socketio = require('socket.io');
+const parseStringAsArray = require('./utils/parseStringAsArray');
+const calculateDistance = require('./utils/calculateDistance');
+
+const connections = [];
+let io;
 
 exports.setupWebSocket = server => {
-  const io = socketio(server);
+  io = socketio(server);
 
   io.on('connection', socket => {
-    console.log(socket.id);
-    console.log(socket.handshake.query);
+    const { latitude, longitude, techs } = socket.handshake.query;
 
-    setTimeout(() => {
-      socket.emit('message', 'Hello World');
-    }, 3000);
+    connections.push({
+      id: socket.id,
+      coordinates: {
+        latitude: +latitude,
+        longitude: +longitude
+      },
+      techs: parseStringAsArray(techs)
+    });
+  });
+};
+
+exports.findConnections = (coordinates, techs) => {
+  return connections.filter(
+    connection =>
+      calculateDistance(coordinates, connection.coordinates) <= 10 &&
+      connection.techs.some(tech => techs.includes(tech))
+  );
+};
+
+exports.sendMessage = (recipient, messageType, data) => {
+  recipient.forEach(connection => {
+    io.to(connection.id).emit(messageType, data);
   });
 };
